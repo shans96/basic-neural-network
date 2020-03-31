@@ -13,5 +13,5 @@ class Network
         std::vector<int> layers;
         std::vector<Eigen::MatrixXd> weights;
         std::vector<Eigen::MatrixXd> biases;
-        float sigmoid_activation(float x);
+        double sigmoid_activation(double x);
 };
