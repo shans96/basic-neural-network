@@ -1,4 +1,12 @@
 .vscode/
+.vs/
+*.tlog
+*.sln
+*.vcxproj
+*.suo
+*.filters
+*.user
+*.log
 *.obj
 *.pdb
 *.ilk
