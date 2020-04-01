@@ -8,6 +8,14 @@ Network::Network(const std::vector<int> layer_data)
 	generate_biases();
 }
 
+Network::Network(const std::vector<int> layer_data, 
+	std::vector<Eigen::MatrixXd> network_weights, std::vector<Eigen::MatrixXd> network_biases)
+{
+	layers = layer_data;
+	weights = network_weights;
+	biases = network_biases;
+}
+
 void Network::generate_biases()
 {
 	// Input layer has no biases, splice it
@@ -29,6 +37,28 @@ void Network::generate_weights()
 	{
 		weights.push_back(Eigen::MatrixXd::Random(*it, *next(it)));
 	}
+}
+
+Eigen::MatrixXd Network::feed_forward(Eigen::VectorXd input)
+{
+	// Returns the output of the entire network
+	std::vector<int> temp(layers);
+	temp.erase(temp.begin());
+	// For each layer
+	for (size_t i = 0; i < temp.size(); i++)
+	{
+		Eigen::VectorXd layer_output(temp[i]);
+		// For each neuron in the layer
+		for (size_t j = 0; j < weights[i].rows(); j++)
+		{
+			Eigen::RowVectorXd neuron_weights = weights[i].row(j);
+			double neuron_output = sigmoid_activation(neuron_weights.dot(input) + biases[i](j));
+			layer_output(j, 0) = neuron_output;
+		}
+		input = layer_output;
+	}
+	
+	return input;
 }
 
 double Network::sigmoid_activation(double x)
