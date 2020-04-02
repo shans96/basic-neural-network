@@ -41,7 +41,10 @@ void Network::generate_weights()
 
 Eigen::MatrixXd Network::feed_forward(Eigen::VectorXd input)
 {
-	// Returns the output of the entire network
+	// Returns the output of the entire network.
+	// Note: Eigen doesn't support multidimensional matrix products,
+	// so activations have to be calculated individually and then be placed
+	// into a new matrix.
 	std::vector<int> temp(layers);
 	temp.erase(temp.begin());
 	// For each layer
