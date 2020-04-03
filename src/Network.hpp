@@ -1,6 +1,7 @@
 #include "../lib/Eigen/Dense"
+#include "network_calc.h"
+#include <functional>
 #include <vector>
-#include <random>
 
 class Network 
 {

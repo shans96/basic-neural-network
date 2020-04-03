@@ -41,30 +41,14 @@ void Network::generate_weights()
 
 Eigen::MatrixXd Network::feed_forward(Eigen::VectorXd input)
 {
-	// Returns the output of the entire network.
-	// Note: Eigen doesn't support multidimensional matrix products,
-	// so activations have to be calculated individually and then be placed
-	// into a new matrix.
 	std::vector<int> temp(layers);
 	temp.erase(temp.begin());
-	// For each layer
 	for (size_t i = 0; i < temp.size(); i++)
 	{
-		Eigen::VectorXd layer_output(temp[i]);
-		// For each neuron in the layer
-		for (size_t j = 0; j < weights[i].rows(); j++)
-		{
-			Eigen::RowVectorXd neuron_weights = weights[i].row(j);
-			double neuron_output = sigmoid_activation(neuron_weights.dot(input) + biases[i](j));
-			layer_output(j, 0) = neuron_output;
-		}
-		input = layer_output;
+		input = network_calc::multiply_matrices(weights[i], input) + biases[i];
+		input = input.unaryExpr([] (double x) {
+				return 1.0 / (1.0 + exp(-x));
+			});
 	}
-	
 	return input;
-}
-
-double Network::sigmoid_activation(double x)
-{
-    return 1.0/(1.0 + exp(-x));
 }
