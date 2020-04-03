@@ -1,6 +1,7 @@
 #include "../lib/Eigen/Dense"
 #include "network_calc.h"
 #include <functional>
+#include <valarray>
 #include <vector>
 
 class Network 
@@ -14,8 +15,9 @@ class Network
     private:
         void generate_weights();
         void generate_biases();
+        void initialize_layers(std::vector<int> layers);
         std::vector<int> layers;
+        std::vector<int> non_input_layers;
         std::vector<Eigen::MatrixXd> weights;
         std::vector<Eigen::MatrixXd> biases;
-        double sigmoid_activation(double x);
 };

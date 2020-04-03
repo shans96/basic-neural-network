@@ -4,8 +4,7 @@ namespace network_calc
 {
 	Eigen::MatrixXd multiply_matrices(Eigen::MatrixXd matrix1, Eigen::MatrixXd matrix2)
 	{
-		// Consider changing return MatrixXd to VectorXd- you should always get an n*1 matrix back for a layer
-		// m*n . n*p -> m*p
+		// TODO: Consider changing return MatrixXd to VectorXd- you should always get an n*1 matrix back for a layer
 		if (matrix1.cols() != matrix2.rows())
 		{
 			throw std::runtime_error("Cannot perform dot product, dimensions are unequal");
