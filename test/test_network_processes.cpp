@@ -50,7 +50,7 @@ Network create_test_network()
 TEST_CASE("Neural network processes produce the correct (approximate) answers", "[processes]")
 {
 	Network network = create_test_network();
-	double network_feed_forward_result = network.feed_forward(Eigen::Vector2d(2.0, 1.0))(0);
+	double network_feed_forward_result = std::get<0>(network.feed_forward(Eigen::Vector2d(2.0, 1.0)))(0);
 	WARN("Network feed forward output: " << network_feed_forward_result << ". Expecting approximately 0.27045343.");
 	REQUIRE(network_feed_forward_result == Approx(0.27045343).epsilon(0.000001));
 }
