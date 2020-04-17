@@ -47,7 +47,7 @@ Network create_test_network()
 }
 
 
-TEST_CASE("Neural network processes produce the correct (approximate) answers", "[processes]")
+TEST_CASE("Feed forward produces the correct (approximate) answers", "[feedforward]")
 {
 	Network network = create_test_network();
 	double network_feed_forward_result = std::get<0>(network.feed_forward(Eigen::Vector2d(2.0, 1.0)))(0);
