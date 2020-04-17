@@ -24,18 +24,6 @@ namespace network_calc
 		return output;
 	}
 
-	// Should only be column vectors
-	double calculate_error(Eigen::MatrixXd expected, Eigen::MatrixXd calculated)
-	{
-		double sum = 0;
-		for (size_t i = 0; i < expected.rows(); i++)
-		{
-			// Squared error
-			sum += (expected(i, 1) - calculated(i, 1)) * (expected(i, 1) - calculated(i, 1));
-		}
-		return sum;
-	}
-
 	double sigmoid(double x)
 	{
 		return 1.0 / (1.0 + exp(-x));;
@@ -48,7 +36,6 @@ namespace network_calc
 
 	double result_difference(double actual, double predicted)
 	{
-		// Part of the partial derivative equation
 		return predicted - actual;
 	}
 }

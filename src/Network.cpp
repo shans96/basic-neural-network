@@ -69,7 +69,6 @@ std::pair<std::vector<Eigen::MatrixXd>, std::vector<Eigen::MatrixXd>> Network::b
 	std::vector<Eigen::MatrixXd> cloned_weights(weights);
 	std::vector<Eigen::MatrixXd> cloned_biases(biases);
 
-	// Output layer error
 	for (size_t i = 0; i < layers[layers.size() - 1]; i++)
 	{
 		cloned_biases[cloned_biases.size() - 1](i, 0) = network_calc::result_difference(expected_output(i, 0), calculated_output(i, 0)) * 
