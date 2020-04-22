@@ -93,3 +93,58 @@ std::pair<std::vector<Eigen::MatrixXd>, std::vector<Eigen::MatrixXd>> Network::b
 
 	return std::make_pair(cloned_biases, cloned_weights);
 }
+
+void Network::mini_batch_gradient_descent(double alpha, int epochs, int batch_size, std::vector<xy_data> training_data)
+{
+	auto rng = std::default_random_engine{};
+	std::vector<xy_data> mini_batch;
+	mini_batch.reserve(batch_size);
+	if (training_data.size() < batch_size)
+	{
+		std::cout << "Warning: training data size is less than the batch size. Batch size will be changed to match training data size.";
+		batch_size = training_data.size();
+	}
+	for (size_t i = 0; i < epochs; i++)
+	{
+		std::shuffle(std::begin(training_data), std::end(training_data), rng);
+		for (size_t j = 0; j < batch_size; j++)
+		{
+			mini_batch.push_back(training_data[j]);;
+		}
+
+		update_weights_biases(mini_batch, alpha);
+
+		std::cout << "Epoch" << std::to_string(i) << " complete" << "\n";
+	}
+}
+
+void Network::update_weights_biases(std::vector<xy_data> batch, double alpha)
+{
+	std::vector<Eigen::MatrixXd> delta_weights;
+	delta_weights.reserve(weights.size());
+	for (size_t i = 0; i < weights.size(); i++)
+	{
+		delta_weights.push_back(Eigen::MatrixXd::Zero(weights[i].rows(), weights[i].cols()));
+	}
+	std::vector<Eigen::MatrixXd> delta_biases;
+	delta_biases.reserve(biases.size());
+	for (size_t i = 0; i < biases.size(); i++)
+	{
+		delta_biases.push_back(Eigen::MatrixXd::Zero(biases[i].rows(), biases[i].cols()));
+	}
+	for (size_t i = 0; i < batch.size(); i++)
+	{
+		auto backprop_output_pair = (*this).backpropagate(batch[i].first, batch[i].second);
+		for (size_t j = 0; j < backprop_output_pair.first.size(); j++)
+		{
+			delta_weights[j] += backprop_output_pair.second[j];
+			delta_biases[j] += backprop_output_pair.first[j];
+		}
+	}
+
+	for (size_t i = 0; i < weights.size(); i++)
+	{
+		weights[i] -= (alpha / batch.size()) * delta_weights[i];
+		biases[i] -= (alpha / batch.size()) * delta_biases[i];
+	}
+}
