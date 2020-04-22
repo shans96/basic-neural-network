@@ -20,6 +20,8 @@ class Network
         std::tuple<Eigen::MatrixXd, std::vector<Eigen::MatrixXd>, std::vector<Eigen::MatrixXd>> feed_forward(Eigen::VectorXd input);
         std::pair<std::vector<Eigen::MatrixXd>, std::vector<Eigen::MatrixXd>> backpropagate(Eigen::MatrixXd input, Eigen::MatrixXd expected_output);
         void mini_batch_gradient_descent(double alpha, int epochs, int batch_size, std::vector<xy_data> training_data);
+        std::vector<Eigen::MatrixXd> get_weights();
+        std::vector<Eigen::MatrixXd> get_biases();
 
     private:
         void generate_weights();

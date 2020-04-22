@@ -24,6 +24,17 @@ namespace network_calc
 		return output;
 	}
 
+	std::vector<Eigen::MatrixXd> create_layers_as_zero_matrices(std::vector<Eigen::MatrixXd> *layers_to_clone)
+	{
+		std::vector<Eigen::MatrixXd> zero_vector;
+		zero_vector.reserve((*layers_to_clone).size());
+		for (size_t i = 0; i < (*layers_to_clone).size(); i++)
+		{
+			zero_vector.push_back(Eigen::MatrixXd::Zero((*layers_to_clone)[i].rows(), (*layers_to_clone)[i].cols()));
+		}
+		return zero_vector;
+	}
+
 	double sigmoid(double x)
 	{
 		return 1.0 / (1.0 + exp(-x));;

@@ -118,20 +118,20 @@ void Network::mini_batch_gradient_descent(double alpha, int epochs, int batch_si
 	}
 }
 
+std::vector<Eigen::MatrixXd> Network::get_weights()
+{
+	return weights;
+}
+
+std::vector<Eigen::MatrixXd> Network::get_biases()
+{
+	return biases;
+}
+
 void Network::update_weights_biases(std::vector<xy_data> batch, double alpha)
 {
-	std::vector<Eigen::MatrixXd> delta_weights;
-	delta_weights.reserve(weights.size());
-	for (size_t i = 0; i < weights.size(); i++)
-	{
-		delta_weights.push_back(Eigen::MatrixXd::Zero(weights[i].rows(), weights[i].cols()));
-	}
-	std::vector<Eigen::MatrixXd> delta_biases;
-	delta_biases.reserve(biases.size());
-	for (size_t i = 0; i < biases.size(); i++)
-	{
-		delta_biases.push_back(Eigen::MatrixXd::Zero(biases[i].rows(), biases[i].cols()));
-	}
+	std::vector<Eigen::MatrixXd> delta_weights = network_calc::create_layers_as_zero_matrices(&weights);
+	std::vector<Eigen::MatrixXd> delta_biases = network_calc::create_layers_as_zero_matrices(&biases);
 	for (size_t i = 0; i < batch.size(); i++)
 	{
 		auto backprop_output_pair = (*this).backpropagate(batch[i].first, batch[i].second);
