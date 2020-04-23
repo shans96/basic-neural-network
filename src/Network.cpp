@@ -101,7 +101,7 @@ void Network::mini_batch_gradient_descent(double alpha, int epochs, int batch_si
 	mini_batch.reserve(batch_size);
 	if (training_data.size() < batch_size)
 	{
-		std::cout << "Warning: training data size is less than the batch size. Batch size will be changed to match training data size.";
+		std::cout << "Warning: training data size is less than the batch size. Batch size will be changed to match training data size.\n";
 		batch_size = training_data.size();
 	}
 	for (size_t i = 0; i < epochs; i++)
@@ -114,7 +114,7 @@ void Network::mini_batch_gradient_descent(double alpha, int epochs, int batch_si
 
 		update_weights_biases(mini_batch, alpha);
 
-		std::cout << "Epoch" << std::to_string(i) << " complete" << "\n";
+		std::cout << "Epoch " << std::to_string(i) << " complete" << "\n";
 	}
 }
 
