@@ -130,8 +130,8 @@ std::vector<Eigen::MatrixXd> Network::get_biases()
 
 void Network::update_weights_biases(std::vector<xy_data> batch, double alpha)
 {
-	std::vector<Eigen::MatrixXd> delta_weights = network_calc::create_layers_as_zero_matrices(&weights);
-	std::vector<Eigen::MatrixXd> delta_biases = network_calc::create_layers_as_zero_matrices(&biases);
+	std::vector<Eigen::MatrixXd> delta_weights = network_calc::created_zeroed_layers(&weights);
+	std::vector<Eigen::MatrixXd> delta_biases = network_calc::created_zeroed_layers(&biases);
 	for (size_t i = 0; i < batch.size(); i++)
 	{
 		auto backprop_output_pair = (*this).backpropagate(batch[i].first, batch[i].second);
