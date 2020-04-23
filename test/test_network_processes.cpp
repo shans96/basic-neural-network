@@ -5,15 +5,15 @@ const double ACCURACY = 0.000001;
 const Eigen::MatrixXd SMALL_NETWORK_INPUT = Eigen::Vector2d(2.0, 1.0);
 const double SMALL_NETWORK_EXPECTED_OUTPUT = 1.0;
 
-std::vector<Eigen::MatrixXd> create_weights()
+std::vector<Eigen::MatrixXd> create_small_weights_set(double first_layer[], double second_layer[])
 {
 	Eigen::MatrixXd first_layer_weights(3, 2);
-	first_layer_weights << -0.19964734, -0.22955651,
-		-0.69292439, -2.67396935,
-		0.09088148, 0.58786673;
+	first_layer_weights << first_layer[0], first_layer[1],
+		first_layer[2], first_layer[3],
+		first_layer[4], first_layer[5];
 
 	Eigen::MatrixXd second_layer_weights(1, 3);
-	second_layer_weights << 0.5958179, 0.12265036, 0.67701942;
+	second_layer_weights << second_layer[0], second_layer[1], second_layer[2];
 
 	std::vector<Eigen::MatrixXd> weights;
 	weights.reserve(2);
@@ -23,15 +23,15 @@ std::vector<Eigen::MatrixXd> create_weights()
 	return weights;
 }
 
-std::vector<Eigen::MatrixXd> create_biases()
+std::vector<Eigen::MatrixXd> create_small_biases_set(double first_layer[], double second_layer[])
 {
 	Eigen::MatrixXd first_layer_biases(3, 1);
-	first_layer_biases << 0.21737026,
-		0.20908332,
-		1.66283142;
+	first_layer_biases << first_layer[0],
+		first_layer[1],
+		first_layer[2];
 
 	Eigen::MatrixXd second_layer_biases(1, 1);
-	second_layer_biases << -1.85470767;
+	second_layer_biases << second_layer[0];
 
 	std::vector<Eigen::MatrixXd> biases;
 	biases.reserve(2);
@@ -41,82 +41,73 @@ std::vector<Eigen::MatrixXd> create_biases()
 	return biases;
 }
 
+std::vector<Eigen::MatrixXd> create_weights()
+{
+	double first_layer[6] = { -0.19964734, -0.22955651,
+		-0.69292439, -2.67396935,
+		0.09088148, 0.58786673 
+	};
+	double second_layer[3] = { 0.5958179, 0.12265036, 0.67701942 };
+
+	return create_small_weights_set(first_layer, second_layer);
+}
+
+std::vector<Eigen::MatrixXd> create_biases()
+{
+	double first_layer[3] = { 0.21737026, 0.20908332, 1.66283142 };
+	double second_layer[1] = { -1.85470767 };
+
+	return create_small_biases_set(first_layer, second_layer);
+}
+
 std::vector<Eigen::MatrixXd> create_small_backprop_weights()
 {
-	std::vector<Eigen::MatrixXd> expected_weights;
-
-	Eigen::MatrixXd first_weights(3,2);
-	Eigen::MatrixXd second_weights(1,3);
-
-	first_weights << -0.04111753, -0.02055877,
+	double first_layer[6] = { -0.04111753, -0.02055877,
 		-0.00071989, -0.00035995,
-		-0.01446475, -0.00723237;
+		-0.01446475, -0.00723237 
+	};
+	double second_layer[3] = { -0.05737056,
+		-0.00299714,
+		-0.13232482 
+	};
 
-	second_weights << -0.05737056, 
-		-0.00299714, 
-		-0.13232482;
-
-	expected_weights.push_back(first_weights);
-	expected_weights.push_back(second_weights);
-
-	return expected_weights;
+	return create_small_weights_set(first_layer, second_layer);
 }
 
 std::vector<Eigen::MatrixXd> create_small_backprop_biases()
 {
-	std::vector<Eigen::MatrixXd> expected_biases;
-	Eigen::MatrixXd first_biases(3,1);
-	Eigen::MatrixXd second_biases(1,1);
-
-	first_biases << -0.02055877,
+	double first_layer [3]= { -0.02055877,
 		-0.00035995,
-		-0.00723237;
+		-0.00723237 
+	};
+	double second_layer[1] = { -0.14394565 };
 
-	second_biases << -0.14394565;
-
-	expected_biases.push_back(first_biases);
-	expected_biases.push_back(second_biases);
-
-	return expected_biases;
+	return create_small_biases_set(first_layer, second_layer);
 }
 
 std::vector<Eigen::MatrixXd> create_small_trained_weights()
 {
-	std::vector<Eigen::MatrixXd> trained_weights;
-
-	Eigen::MatrixXd first_weights(3, 2);
-	Eigen::MatrixXd second_weights(1, 3);
-
-	first_weights << -0.1984116, -0.22893864,
+	double first_layer[6] = { -0.1984116, -0.22893864,
 		-0.69290277, -2.67395854,
-		0.09131636, 0.58808417;
-
-	second_weights << 0.59754129,
+		0.09131636, 0.58808417 
+	};
+	double second_layer[3] = { 0.59754129,
 		0.12274033,
-		0.6809916;
+		0.6809916 
+	};
 
-	trained_weights.push_back(first_weights);
-	trained_weights.push_back(second_weights);
-
-	return trained_weights;
+	return create_small_weights_set(first_layer, second_layer);
 }
 
 std::vector<Eigen::MatrixXd> create_small_trained_biases()
 {
-	std::vector<Eigen::MatrixXd> trained_biases;
-	Eigen::MatrixXd first_biases(3, 1);
-	Eigen::MatrixXd second_biases(1, 1);
-
-	first_biases << 0.21798813,
+	double first_layer[3] = { 0.21798813,
 		0.20909413,
-		1.66304886;
+		1.66304886 
+	};
+	double second_layer[1] = { -1.85038681 };
 
-	second_biases << -1.85038681;
-
-	trained_biases.push_back(first_biases);
-	trained_biases.push_back(second_biases);
-
-	return trained_biases;
+	return create_small_biases_set(first_layer, second_layer);
 }
 
 Network create_test_network()
