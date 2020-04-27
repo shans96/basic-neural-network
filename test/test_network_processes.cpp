@@ -128,6 +128,14 @@ std::vector<xy_data> create_small_training_dataset()
 	return training_data;
 }
 
+TEST_CASE("Network generation completes successfully", "[initialization]")
+{
+	Network mnist_test_network = Network(std::vector<int> { 784, 100, 10 });
+	Network small_network = create_test_network();
+	REQUIRE(mnist_test_network.get_layers().size() == 3);
+	REQUIRE(small_network.get_layers().size() == 3);
+}
+
 TEST_CASE("Feed forward produces the correct (approximate) answer", "[feedforward]")
 {
 	Network network = create_test_network();

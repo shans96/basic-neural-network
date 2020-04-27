@@ -9,4 +9,5 @@ namespace network_calc
 	double sigmoid(double x);
 	double sigmoid_derivative(double x);
 	double result_difference(double actual, double predicted);
+	double sum_squared_error(Eigen::MatrixXd actual, Eigen::MatrixXd predicted);
 }

@@ -22,6 +22,7 @@ class Network
         void mini_batch_gradient_descent(double alpha, int epochs, int batch_size, std::vector<xy_data> training_data);
         std::vector<Eigen::MatrixXd> get_weights();
         std::vector<Eigen::MatrixXd> get_biases();
+        std::vector<int> get_layers();
 
     private:
         void generate_weights();

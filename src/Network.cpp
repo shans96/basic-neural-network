@@ -33,8 +33,8 @@ void Network::generate_biases()
 
 void Network::generate_weights()
 {
-	weights.reserve(layers.size());
-	for (auto it = layers.begin(); it != layers.end(); it++)
+	weights.reserve(layers.size() - 1);
+	for (auto it = layers.begin(); it != layers.end() - 1; it++)
 	{
 		weights.push_back(Eigen::MatrixXd::Random(*it, *next(it)));
 	}
@@ -113,8 +113,11 @@ void Network::mini_batch_gradient_descent(double alpha, int epochs, int batch_si
 		}
 
 		update_weights_biases(mini_batch, alpha);
+		// Perform prediction on the last example just to check
+		Eigen::MatrixXd new_predicted_output = std::get<2>((*this).feed_forward(training_data.back().first)).back();
 
-		std::cout << "Epoch " << std::to_string(i) << " complete" << "\n";
+		std::cout << "Epoch " << std::to_string(i) << ", "
+			<< "SSE: " << std::to_string(network_calc::sum_squared_error(new_predicted_output, training_data.back().second)) << ".\n";
 	}
 }
 
@@ -126,6 +129,11 @@ std::vector<Eigen::MatrixXd> Network::get_weights()
 std::vector<Eigen::MatrixXd> Network::get_biases()
 {
 	return biases;
+}
+
+std::vector<int> Network::get_layers()
+{
+	return layers;
 }
 
 void Network::update_weights_biases(std::vector<xy_data> batch, double alpha)
