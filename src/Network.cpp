@@ -36,7 +36,7 @@ void Network::generate_weights()
 	weights.reserve(layers.size() - 1);
 	for (auto it = layers.begin(); it != layers.end() - 1; it++)
 	{
-		weights.push_back(Eigen::MatrixXd::Random(*it, *next(it)));
+		weights.push_back(Eigen::MatrixXd::Random(*next(it), *it));
 	}
 }
 
